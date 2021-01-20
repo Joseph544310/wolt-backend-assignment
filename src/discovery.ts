@@ -47,19 +47,20 @@ router.get('/', (req:express.Request, res: express.Response) => {
     // Only first 10
     newRestaurants = newRestaurants.slice(0, Math.min(newRestaurants.length, 10))
 
-    // Sort in descending order of distance with online restaurants taking precedence
+    // Sort in ascending order of distance with online restaurants taking precedence
     let nearbyRestaurants: Restaurant[] = restaurants.sort( (a, b) => {
         if (a.online && !b.online) return -1;
         else if (!a.online && b.online) return 1;
-        else return distance(location, b.location) - distance(location, a.location);
+        else return distance(location, a.location) - distance(location, b.location);
     })
     // Only first 10
     nearbyRestaurants = nearbyRestaurants.slice(0, Math.min(nearbyRestaurants.length, 10))
 
+    // ES6 syntax for conditional object keys. If length is 0, key is omitted
     res.json({
-        popularRestaurants,
-        newRestaurants,
-        nearbyRestaurants
+        ...popularRestaurants.length && {"Popular Restaurants": popularRestaurants},
+        ...newRestaurants.length && {"New Restaurants": newRestaurants},
+        ...nearbyRestaurants.length && {"Nearby Restaurants": nearbyRestaurants},
     })
 })
 
