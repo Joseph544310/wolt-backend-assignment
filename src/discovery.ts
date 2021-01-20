@@ -58,9 +58,19 @@ router.get('/', (req:express.Request, res: express.Response) => {
     // Only first 10
     newRestaurants = newRestaurants.slice(0, Math.min(newRestaurants.length, 10))
 
+    // Sort in descending order of distance with online restaurants taking precedence
+    let nearbyRestaurants: Restaurant[] = restaurants.sort( (a, b) => {
+        if (a.online && !b.online) return -1;
+        else if (!a.online && b.online) return 1;
+        else return distance(location, b.location) - distance(location, a.location);
+    })
+    // Only first 10
+    nearbyRestaurants = nearbyRestaurants.slice(0, Math.min(nearbyRestaurants.length, 10))
+
     res.json({
         popularRestaurants,
-        newRestaurants
+        newRestaurants,
+        nearbyRestaurants
     })
 })
 
