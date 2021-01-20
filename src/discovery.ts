@@ -13,6 +13,11 @@ interface Restaurant {
     popularity: number
 }
 
+interface Section {
+    title: string,
+    restaurants: Restaurant[]
+}
+
 router.get('/', (req:express.Request, res: express.Response) => {
     const lat: number = Number(req.query.lat)
     const lon: number = Number(req.query.lon)
@@ -56,11 +61,15 @@ router.get('/', (req:express.Request, res: express.Response) => {
     // Only first 10
     nearbyRestaurants = nearbyRestaurants.slice(0, Math.min(nearbyRestaurants.length, 10))
 
-    // ES6 syntax for conditional object keys. If length is 0, key is omitted
+    // Filter out sections with empty restaurants list
+    let sections: Section[] = [{title: "Popular Restaurants", restaurants: popularRestaurants},
+    {title: "New Restaurants", restaurants: newRestaurants},
+    {title: "Nearby Restaurants", restaurants: nearbyRestaurants}]
+
+    sections = sections.filter(section => section.restaurants.length != 0)
+
     res.json({
-        ...popularRestaurants.length && {"Popular Restaurants": popularRestaurants},
-        ...newRestaurants.length && {"New Restaurants": newRestaurants},
-        ...nearbyRestaurants.length && {"Nearby Restaurants": nearbyRestaurants},
+        sections
     })
 })
 
