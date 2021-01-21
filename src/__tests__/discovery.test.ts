@@ -37,7 +37,7 @@ describe('discovery route', () => {
         const sections: Section [] = result.body.sections
         sections.forEach((section: Section) => {
             section.restaurants.forEach(restaurant => {
-                // console.log(distance([24.941, 60.1709], restaurant.location))
+                console.log(distance([24.941, 60.1709], restaurant.location))
                 expect(distance([24.941, 60.1709], restaurant.location)).toBeLessThanOrEqual(1.5)
             })
         })
