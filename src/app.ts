@@ -9,6 +9,7 @@ app.get('/', (req:express.Request, res:express.Response) => {
     res.send("It's working!!")
 })
 
-app.listen(5000, () => console.log('Listenning...'))
+const port = process.env.PORT || 5000
+app.listen(port, () => console.log('Listenning...'))
 
 export default app;
