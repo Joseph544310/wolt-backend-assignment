@@ -10,3 +10,5 @@ app.get('/', (req:express.Request, res:express.Response) => {
 })
 
 app.listen(5000, () => console.log('Listenning...'))
+
+export default app;
