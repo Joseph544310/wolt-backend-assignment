@@ -1,22 +1,9 @@
 import express from 'express'
 import data from './restaurants.json'
 import { distance, lessThanFourMonthsAgo} from './helperFunctions'
+import {Restaurant, Section} from './types'
 
 const router: express.Router = express.Router()
-
-interface Restaurant {
-    blurhash: string,
-    launch_date: string,
-    location: Array<number>,
-    name: string,
-    online: boolean,
-    popularity: number
-}
-
-interface Section {
-    title: string,
-    restaurants: Restaurant[]
-}
 
 router.get('/', (req:express.Request, res: express.Response) => {
     const lat: number = Number(req.query.lat)

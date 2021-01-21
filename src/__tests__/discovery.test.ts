@@ -1,20 +1,7 @@
 import app from '../app'
 import request from 'supertest'
 import {distance} from '../helperFunctions'
-
-interface Restaurant {
-    blurhash: string,
-    launch_date: string,
-    location: Array<number>,
-    name: string,
-    online: boolean,
-    popularity: number
-}
-
-interface Section {
-    title: string,
-    restaurants: Restaurant[]
-}
+import {Section} from '../types'
 
 describe('discovery route', () => {
     
@@ -37,12 +24,11 @@ describe('discovery route', () => {
         const sections: Section [] = result.body.sections
         sections.forEach((section: Section) => {
             section.restaurants.forEach(restaurant => {
-                console.log(distance([24.941, 60.1709], restaurant.location))
                 expect(distance([24.941, 60.1709], restaurant.location)).toBeLessThanOrEqual(1.5)
             })
         })
     
-        done()
-        
+        done()  
     })
+
 })
