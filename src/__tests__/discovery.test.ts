@@ -5,13 +5,13 @@ import {Restaurant, Section} from '../types'
 
 describe('discovery route', () => {
     
-    test('All returned sections have non-empty restaurants list', async (done) => {
+    test('All returned sections have restaurants list with at least one element and at most 10 elements', async (done) => {
 
         const result = await request(app).get('/discovery?lat=60.1709&lon=24.941')
         
         const sections: Section [] = result.body.sections
         sections.forEach((section: Section) => {
-            expect(section.restaurants.length).not.toEqual(0)
+            expect(section.restaurants.length > 0 && section.restaurants.length <= 10).toBeTruthy()
         })
 
         done()
